@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sobre</title>
+        <link rel="stylesheet" href="./../css/global.css">
+        <style>
+            body, html
+            {
+                background-color: rgb(213, 207, 218);
+            }
+            
+            main#window
+            {
+                padding: 1rem;
+                height: 100vh;
+                width: 100vw;
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            h1.title
+            {
+                font-weight: 800;
+                margin-bottom: 2rem;
+            }
+
+            p.about
+            {
+                margin-bottom: 10px;
+                color: #444;
+                font-weight: 600;
+            }
+
+            nav
+            {
+                color: rgb(59, 59, 59);
+                font-size: 15px;
+                margin-bottom: 10px
+            }
+
+            nav a
+            {
+                text-decoration: none;
+                color: rgb(169, 87, 180);
+                font-weight: 600;
+            }
+
+            footer button
+            {
+                background: none;
+                border: none;
+                outline: none;
+                text-transform: uppercase;
+                font-weight: 700;
+                padding: 10px 20px;
+                border-radius: 3px;
+                background-color: rgb(216, 163, 223);
+                color: #fff;
+                cursor: pointer;
+                transition: all .2s;
+            }
+
+            footer button:hover
+            {
+                background-color: rgb(189, 127, 197);
+            }
+        </style>
+    </head>
+    <body>
+        <main id="window">
+            <h1 class="title">Sobre</h1>
+            <p class="about">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+            <nav class="date">24/04/2021 | <a href="#">Felipe Oliveira</a> - Alura</nav>
+
+            <footer>
+                <button class="close-about-window">fechar</button>
+            </footer>
+        </main>
+
+        <script>
+            const { ipcRenderer, shell } = require('electron')
+            const DEV_GITHUB_PROFILE_URL = 'https://github.com/felipeoli7eira'
+
+            document.querySelector('button.close-about-window').onclick = () => {
+                ipcRenderer.send('close-about-window-event')
+            }
+
+            document.querySelector('nav a').addEventListener('click', () => shell.openExternal(DEV_GITHUB_PROFILE_URL))
+        </script>
+    </body>
+</html>
