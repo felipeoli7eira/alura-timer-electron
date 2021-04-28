@@ -6,17 +6,124 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Electron app</title>
         <link rel="stylesheet" href="./../css/global.css">
+        <style>
+            @font-face {
+                font-family: Roboto;
+                src: url(../fonts/Roboto/Roboto-Light.ttf) format('truetype');;
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            html, body
+            {
+                height: 100%;
+                width: 100%;
+                font-family: 'Roboto', sans-serif;
+                background: url(../img/texture.png) top left repeat;
+            }
+
+            .app
+            {
+                max-width: 530px;
+                margin: 0 auto;
+                margin: 1rem auto;
+            }
+
+            .time-box
+            {
+                font-size: 22px;
+                text-align: center;
+                padding: 1rem;
+            }
+
+            .container .controller img
+            {
+                cursor: pointer;
+                width: 50px;
+                display: block;
+                margin: 1rem auto;
+            }
+
+            .course-box
+            {
+                text-align: center;
+                font-size: 17px;
+                padding: 1rem;
+                text-transform: uppercase;
+                font-weight: 600
+            }
+
+            #showAboutWindow
+            {
+                transition: .3s;
+                background: none;
+                border: none;
+                text-transform: uppercase;
+                font-weight: 600;
+                color: #444;
+                background-color: rgb(172, 60, 182);
+                color: #fff;
+                padding: 10px 20px;
+                border-radius: 4px;
+                margin: 1rem auto;
+                display: block;
+                cursor: pointer;
+                outline: 0;
+            }
+
+            #showAboutWindow:hover
+            {
+                background-color: rgb(196, 106, 204);
+            }
+        </style>
     </head>
     <body>
-        <h1>Welcome</h1>
+        <section class="app">
+            <div class="container">
+                <div class="time-box">
+                    <span class="time">00:00:00</span>
+                </div>
+                <div class="controller">
+                    <img class="btn-controller-play" src="./../img/play-button.svg">
+                </div>
+                <footer class="course-box">
+                    <span class="course">logica-programação</span>
+                </footer>
+            </div>
+        </section>
+
         <button id="showAboutWindow">sobre</button>
 
         <script>
             const { ipcRenderer } = require('electron')
+            const timer = require('./../modules/timer.js')
 
             document.querySelector('#showAboutWindow').addEventListener('click', (event) => {
                 ipcRenderer.send('open-about-window-event')
             })
+
+            let playStopImagesSrc = [
+                './../img/play-button.svg',
+                './../img/stop-button.svg'
+            ]
+            let timerIsRunning = false
+            document.querySelector('.btn-controller-play').onclick = ({target}) => {
+                let spanTime = document.querySelector('span.time')
+                playStopImagesSrc.reverse()
+                target.src = playStopImagesSrc [ 0 ]
+                if (timerIsRunning === false) {
+                    timer.start(spanTime)
+                    timerIsRunning = true
+                }
+                else {
+                    timer.stop()
+                    timerIsRunning = false
+                }
+            }
         </script>
     </body>
 </html>
